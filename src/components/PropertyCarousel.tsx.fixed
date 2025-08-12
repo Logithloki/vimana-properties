@@ -1,0 +1,243 @@
+'use client';
+
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Property } from '@/utils/data';
+
+const AUTOPLAY_INTERVAL = 4000;
+
+const PropertyCarousel = ({ properties }: { properties: Property[] }) => {
+  const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [direction, setDirection] = useState(1); // 1 for right (next), -1 for left (prev)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  // Ensure we have at least 3 properties by duplicating if needed
+  const carouselProperties = useMemo(() => {
+    return properties.length >= 3
+      ? properties
+      : [...properties, ...properties, ...properties].slice(0, Math.max(3, properties.length * 3));
+  }, [properties]);
+
+  const nextSlide = useCallback(() => {
+    setDirection(1);
+    setIndex((prev) => (prev + 1) % carouselProperties.length);
+  }, [carouselProperties.length]);
+
+  const prevSlide = useCallback(() => {
+    setDirection(-1);
+    setIndex((prev) => (prev - 1 + carouselProperties.length) % carouselProperties.length);
+  }, [carouselProperties.length]);
+
+  const resetTimeout = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  }, []);
+
+  const pauseCarousel = useCallback(() => {
+    setIsPaused(true);
+    resetTimeout();
+  }, [resetTimeout]);
+
+  const resumeCarousel = useCallback(() => {
+    setIsPaused(false);
+    resetTimeout();
+    timeoutRef.current = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
+  }, [nextSlide, resetTimeout]);
+
+  useEffect(() => {
+    if (!isPaused) {
+      resetTimeout();
+      timeoutRef.current = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
+    }
+    return () => resetTimeout();
+  }, [index, isPaused, nextSlide, resetTimeout]);
+
+  // Get visible properties for display
+  const visibleProperties = useMemo(() => {
+    if (carouselProperties.length < 3) return carouselProperties;
+    
+    const total = carouselProperties.length;
+    const prev = (index - 1 + total) % total;
+    const next = (index + 1) % total;
+    
+    return [
+      carouselProperties[prev],
+      carouselProperties[index],
+      carouselProperties[next]
+    ];
+  }, [carouselProperties, index]);
+
+  // Touch handling for mobile
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    pauseCarousel();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 70) {
+      nextSlide(); // swipe left
+    } else if (touchStart - touchEnd < -70) {
+      prevSlide(); // swipe right
+    }
+    setTimeout(resumeCarousel, 1500);
+  };
+
+  if (!carouselProperties.length) {
+    return null;
+  }
+
+  return (
+    <div
+      className="relative py-16 bg-white overflow-hidden"
+      ref={carouselRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Background */}
+      <div className="absolute inset-0 top-[40%] h-[60%] bg-gray-800 z-0" />
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={() => {
+          pauseCarousel();
+          prevSlide();
+          setTimeout(resumeCarousel, 1500);
+        }}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition"
+        aria-label="Previous slide"
+      >
+        <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        onClick={() => {
+          pauseCarousel();
+          nextSlide();
+          setTimeout(resumeCarousel, 1500);
+        }}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white rounded-full p-3 shadow-md hover:bg-gray-100 transition"
+        aria-label="Next slide"
+      >
+        <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      {/* Carousel Content */}
+      <div
+        className="relative z-10 container mx-auto px-4"
+        onMouseEnter={pauseCarousel}
+        onMouseLeave={resumeCarousel}
+      >
+        {/* Cards Container */}
+        <div className="relative h-[450px] max-w-[1200px] mx-auto flex justify-center items-center">
+          {/* Display 3 cards */}
+          {visibleProperties.map((property, idx) => {
+            const isCenter = idx === 1;
+            // Calculate position and scale based on index
+            const xPosition = isCenter ? 0 : idx === 0 ? -380 : 380;
+            const scale = isCenter ? 1.05 : 0.95;
+            const opacity = isCenter ? 1 : 0.7;
+            const yPosition = isCenter ? -10 : 0;
+            
+            return (
+              <motion.div
+                key={`${property.id}-${idx}`}
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity, 
+                  scale,
+                  y: yPosition,
+                  x: xPosition,
+                  zIndex: isCenter ? 20 : 10
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 300, 
+                  damping: 30,
+                  duration: 0.5
+                }}
+                className={`absolute w-[360px]`}
+              >
+                <Link href={`/properties/${property.id}`} prefetch={isCenter}>
+                  <div className="w-[360px] bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <div className="relative h-[270px] w-full">
+                      <Image
+                        src={property.mainImage || '/images/placeholder-property.jpg'}
+                        alt={property.title}
+                        fill
+                        priority={isCenter}
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40"></div>
+                      <div className="absolute bottom-4 left-4 z-20">
+                        <span className="bg-white text-gray-900 px-4 py-2 rounded-lg text-lg font-bold shadow-md">
+                          ${property.price.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1 hover:text-primary-600">
+                        {property.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 text-sm line-clamp-1">
+                        {property.address || property.location}
+                      </p>
+                      <div className="flex justify-between text-sm text-gray-600 border-t pt-4">
+                        <span>{property.bedrooms} Beds</span>
+                        <span>{property.bathrooms} Baths</span>
+                        <span>{property.area} sqft</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+        {carouselProperties.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => {
+              pauseCarousel();
+              setDirection(idx > index ? 1 : -1);
+              setIndex(idx);
+              setTimeout(resumeCarousel, 1500);
+            }}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              idx === index ? 'bg-primary-600 w-6' : 'bg-gray-400'
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Drag Hint */}
+      <div className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 flex items-center gap-2">
+        <span className="text-xs text-gray-500 uppercase tracking-wider">DRAG</span>
+        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7M5 5l7 7-7 7" />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyCarousel;

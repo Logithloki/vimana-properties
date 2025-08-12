@@ -1,0 +1,168 @@
+import { DocumentData } from 'firebase/firestore';
+
+export const propertyData: Property[] = [
+  {
+    id: '1',
+    title: 'Modern Family Home',
+    price: 450000,
+    location: 'New York, NY',
+    address: '123 Main Street, New York, NY 10001',
+    type: 'House',
+    status: 'For Sale',
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 2100,
+    description: 'A beautiful modern family home with open concept living space. This home features 4 bedrooms, 3 bathrooms, and a renovated kitchen with high-end appliances. The backyard is perfect for entertaining with a large patio and landscaped garden.',
+    features: ['Air Conditioning', 'Swimming Pool', 'Garden', 'Garage', 'Security System'],
+    images: ['/images/property1-1.jpg', '/images/property1-2.jpg', '/images/property1-3.jpg'],
+    mainImage: '/images/property1-main.jpg',
+    featured: true,
+    createdAt: new Date('2025-01-15'),
+  },
+  {
+    id: '2',
+    title: 'Downtown Luxury Apartment',
+    price: 320000,
+    location: 'Seattle, WA',
+    address: '456 Pine Avenue, Seattle, WA 98101',
+    type: 'Apartment',
+    status: 'For Sale',
+    bedrooms: 2,
+    bathrooms: 2,
+    area: 1200,
+    description: 'Luxury apartment in the heart of downtown Seattle with stunning views of the city skyline. The apartment features 2 bedrooms, 2 bathrooms, a modern kitchen with island, and a spacious living area. Building amenities include a fitness center, rooftop deck, and 24-hour concierge.',
+    features: ['Elevator', 'Gym', 'Concierge', 'Balcony', 'Pet Friendly'],
+    images: ['/images/property2-1.jpg', '/images/property2-2.jpg', '/images/property2-3.jpg'],
+    mainImage: '/images/property2-main.jpg',
+    featured: true,
+    createdAt: new Date('2025-02-10'),
+  },
+  {
+    id: '3',
+    title: 'Waterfront Villa',
+    price: 780000,
+    location: 'Miami, FL',
+    address: '789 Ocean Drive, Miami, FL 33139',
+    type: 'Villa',
+    status: 'For Sale',
+    bedrooms: 5,
+    bathrooms: 4,
+    area: 3800,
+    description: 'Stunning waterfront villa with direct beach access. This luxurious property offers 5 bedrooms, 4 bathrooms, a gourmet kitchen, home theater, and an infinity pool overlooking the ocean. Perfect for luxury living and entertaining.',
+    features: ['Waterfront', 'Pool', 'Home Theater', 'Wine Cellar', 'Smart Home'],
+    images: ['/images/property3-1.jpg', '/images/property3-2.jpg', '/images/property3-3.jpg'],
+    mainImage: '/images/property3-main.jpg',
+    featured: true,
+    createdAt: new Date('2025-03-05'),
+  },
+  {
+    id: '4',
+    title: 'Cozy Townhouse',
+    price: 275000,
+    location: 'Chicago, IL',
+    address: '101 Park Lane, Chicago, IL 60614',
+    type: 'Townhouse',
+    status: 'For Sale',
+    bedrooms: 3,
+    bathrooms: 2.5,
+    area: 1600,
+    description: 'Charming townhouse in a family-friendly neighborhood. Features 3 bedrooms, 2.5 bathrooms, updated kitchen, hardwood floors, and a private backyard patio. Close to schools, parks, and public transportation.',
+    features: ['Hardwood Floors', 'Fireplace', 'Patio', 'Basement', 'Central Heating'],
+    images: ['/images/property4-1.jpg', '/images/property4-2.jpg', '/images/property4-3.jpg'],
+    mainImage: '/images/property4-main.jpg',
+    featured: false,
+    createdAt: new Date('2025-01-28'),
+  },
+  {
+    id: '5',
+    title: 'Ranch Style Home',
+    price: 385000,
+    location: 'Austin, TX',
+    address: '222 Hillcrest Road, Austin, TX 78704',
+    type: 'House',
+    status: 'For Sale',
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 2200,
+    description: 'Spacious ranch-style home on a large lot in a desirable neighborhood. This single-story home offers 4 bedrooms, 3 bathrooms, a renovated kitchen with granite countertops, and a large living room with vaulted ceilings. The backyard features a covered patio and large garden.',
+    features: ['Single Story', 'Large Lot', 'Vaulted Ceilings', 'Covered Patio', 'Renovated Kitchen'],
+    images: ['/images/property5-1.jpg', '/images/property5-2.jpg', '/images/property5-3.jpg'],
+    mainImage: '/images/property5-main.jpg',
+    featured: false,
+    createdAt: new Date('2025-02-18'),
+  },
+  {
+    id: '6',
+    title: 'Mountain View Cabin',
+    price: 299000,
+    location: 'Denver, CO',
+    address: '333 Mountain Road, Denver, CO 80202',
+    type: 'Cabin',
+    status: 'Sold',
+    bedrooms: 2,
+    bathrooms: 1,
+    area: 1100,
+    description: 'Charming cabin with stunning mountain views. Features 2 bedrooms, 1 bathroom, a cozy living area with a stone fireplace, and a rustic kitchen. Property includes a large deck perfect for enjoying the scenic views and outdoor dining.',
+    features: ['Mountain Views', 'Fireplace', 'Deck', 'Wood Stove', 'Rustic Charm'],
+    images: ['/images/property6-1.jpg', '/images/property6-2.jpg', '/images/property6-3.jpg'],
+    mainImage: '/images/property6-main.jpg',
+    featured: false,
+    createdAt: new Date('2025-03-12'),
+  },
+  {
+    id: '7',
+    title: 'Urban Loft',
+    price: 420000,
+    location: 'Portland, OR',
+    address: '444 Loft Street, Portland, OR 97204',
+    type: 'Loft',
+    status: 'For Sale',
+    bedrooms: 1,
+    bathrooms: 1.5,
+    area: 1050,
+    description: 'Stylish urban loft in a converted historical building. Features high ceilings, exposed brick walls, large windows, and modern finishes. The open floor plan includes a sleeping area, 1.5 bathrooms, a gourmet kitchen with stainless steel appliances, and a living area. Building offers secure entry and rooftop access.',
+    features: ['Historic Building', 'High Ceilings', 'Exposed Brick', 'Open Floor Plan', 'Rooftop Access'],
+    images: ['/images/property7-1.jpg', '/images/property7-2.jpg', '/images/property7-3.jpg'],
+    mainImage: '/images/property7-main.jpg',
+    featured: false,
+    createdAt: new Date('2025-01-22'),
+  },
+  {
+    id: '8',
+    title: 'Suburban Family Home',
+    price: 520000,
+    location: 'Boston, MA',
+    address: '555 Oak Street, Boston, MA 02116',
+    type: 'House',
+    status: 'Sold',
+    bedrooms: 5,
+    bathrooms: 3.5,
+    area: 2800,
+    description: 'Spacious family home in a quiet suburban neighborhood. This two-story home features 5 bedrooms, 3.5 bathrooms, a formal dining room, updated kitchen with breakfast nook, family room with fireplace, and a finished basement. The backyard includes a deck, playground area, and landscaped garden.',
+    features: ['Two-Story', 'Finished Basement', 'Fireplace', 'Garage', 'Playground'],
+    images: ['/images/property8-1.jpg', '/images/property8-2.jpg', '/images/property8-3.jpg'],
+    mainImage: '/images/property8-main.jpg',
+    featured: false,
+    createdAt: new Date('2025-02-28'),
+  },
+];
+
+export interface Property extends DocumentData {
+  id: string;
+  title: string;
+  address: string;
+  description?: string;
+  price: number;
+  type: string;
+  serviceType?: 'property' | 'land';
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  features?: string[];
+  images: string[];
+  mainImage: string;
+  location: string;
+  featured: boolean;
+  status: 'For Sale' | 'Sold';
+  createdAt: Date;
+}

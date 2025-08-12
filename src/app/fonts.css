@@ -1,0 +1,64 @@
+/* Houschka Font Declarations */
+@font-face {
+  font-family: 'Houschka';
+  src: url('/fonts/houschka/Houschka-Light.woff2') format('woff2'),
+       url('/fonts/houschka/Houschka-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Houschka';
+  src: url('/fonts/houschka/Houschka-Regular.woff2') format('woff2'),
+       url('/fonts/houschka/Houschka-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Houschka';
+  src: url('/fonts/houschka/Houschka-Medium.woff2') format('woff2'),
+       url('/fonts/houschka/Houschka-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Houschka';
+  src: url('/fonts/houschka/Houschka-Bold.woff2') format('woff2'),
+       url('/fonts/houschka/Houschka-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Houschka';
+  src: url('/fonts/houschka/Houschka-Black.woff2') format('woff2'),
+       url('/fonts/houschka/Houschka-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat Font Import from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* Fallback configuration */
+@font-face {
+  font-family: 'Houschka Fallback';
+  src: local('Arial');
+  ascent-override: 95%;
+  descent-override: 28%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
+}
+
+:root {
+  --font-houschka: 'Houschka', 'Houschka Fallback', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
