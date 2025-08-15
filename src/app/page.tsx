@@ -50,12 +50,12 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  
-  const { 
-    register, 
-    handleSubmit, 
+
+  const {
+    register,
+    handleSubmit,
     reset,
-    formState: { errors } 
+    formState: { errors }
   } = useForm<ContactFormData>();
 
   const heroRef = useRef<HTMLElement>(null);
@@ -443,10 +443,10 @@ export default function Home() {
 
       const result = await response.json();
       console.log('Form submitted successfully:', result);
-      
+
       setSubmitSuccess(true);
       reset();
-      
+
       // Clear success message after 5 seconds
       setTimeout(() => {
         setSubmitSuccess(false);
@@ -551,7 +551,7 @@ export default function Home() {
             <div className="w-full flex flex-col lg:flex-row h-auto lg:h-20 max-w-6xl bg-white rounded-xl shadow-md overflow-hidden mt-6">
               {/* Input */}
               <div className="flex items-center px-4 py-3 flex-1">
-                <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 34 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1016.65 2a7.5 7.5 0 000 14.65z" />
                 </svg>
                 <input
@@ -591,7 +591,7 @@ export default function Home() {
 
               {/* Search Button */}
               <button className="bg-gray-800 text-white text-sm font-semibold font-inter px-6 py-3 lg:py-0 hover:bg-gray-900 transition w-full lg:w-auto flex items-center justify-center">
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 34 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1016.65 2a7.5 7.5 0 000 14.65z" />
                 </svg>
                 Search Property
@@ -649,7 +649,7 @@ export default function Home() {
 
       {/* Welcome Section */}
       <section className="bg-[url('hex-pattern.svg')] bg-cover bg-no-repeat py-12 sm:py-16 lg:py-20 px-4 z-10">
-        <div className="sm:px-6 lg:px-12 lg:pl-36">
+        <div className="sm:px-6 lg:px-12 lg:pl-28">
           <div className="flex flex-col md:flex-row justify-between items-start space-y-10 md:space-y-0 md:space-x-12">
 
             {/* Left Column */}
@@ -785,6 +785,11 @@ export default function Home() {
       {/* Team Members Section */}
       <section id="team" className="bg-white px-4 py-16 sm:py-24">
         <div className="container mx-auto">
+          <p className="inline-block text-base sm:text-lg text-slate-900 font-outfit font-normal mb-1">
+            <span className="block before:block before:w-16 before:h-[2px] before:bg-black before:mb-1 after:block after:w-16 after:h-[2px] after:bg-black after:mt-1">
+              Team Members
+            </span>
+          </p>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left side: Text content */}
             <div className="text-left h-[400px] flex flex-col justify-center">
@@ -846,11 +851,11 @@ export default function Home() {
             </div>
 
             {/* Right side: Team members */}
-            <div 
+            <div
               className="flex gap-4 overflow-x-auto hide-scrollbar"
               onMouseLeave={() => setIsHoveredMember(null)}
             >
-              {teamMembers.slice(0, ).map((member, index) => (
+              {teamMembers.slice(0,).map((member, index) => (
                 <motion.div
                   key={member.id}
                   className="relative min-w-[200px] md:min-w-[240px] rounded-2xl overflow-hidden cursor-pointer"
@@ -1079,7 +1084,7 @@ export default function Home() {
                   <label className="block text-sm font-medium font-inter text-gray-700 mb-1">Email</label>
                   <input
                     type="email"
-                    {...register('email', { 
+                    {...register('email', {
                       required: 'Email is required',
                       pattern: {
                         value: /^\S+@\S+$/i,
@@ -1117,11 +1122,10 @@ export default function Home() {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full font-inter text-white py-3 rounded-lg transition-colors duration-200 ${
-                    isSubmitting 
-                      ? 'bg-gray-400 cursor-not-allowed' 
+                  className={`w-full font-inter text-white py-3 rounded-lg transition-colors duration-200 ${isSubmitting
+                      ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-gray-800 hover:bg-gray-700'
-                  }`}
+                    }`}
                   whileHover={!isSubmitting ? { scale: 1.02 } : {}}
                   whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 >
