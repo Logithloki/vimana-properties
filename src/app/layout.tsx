@@ -12,8 +12,8 @@ import ToastContainer from '@/components/ToastContainer';
 // Houschka font is loaded via CSS in fonts.css
 
 export const metadata: Metadata = {
-  title: "Real Estate Listings",
-  description: "Find your dream home with our real estate listings platform",
+  title: "Vimana Properties",
+  description: "Find your dream home with our Vimana Properties platform",
 };
 
 export default function RootLayout({
