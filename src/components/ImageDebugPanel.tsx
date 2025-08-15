@@ -25,13 +25,17 @@ export default function ImageDebugPanel() {
   };
 
   const validateImageUrl = (url: string): boolean => {
-    return url && (
+  return Boolean(
+    url &&
+    (
       url.startsWith('http') || 
       url.startsWith('/images/') ||
       url.includes('cloudinary.com') ||
       url.includes('imgur.com')
-    );
-  };
+    )
+  );
+};
+
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
