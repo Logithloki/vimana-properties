@@ -16,7 +16,7 @@
     "framer-motion": "^12.18.1",
     "googleapis": "^149.0.0",
     "lucide-react": "^0.519.0",
-    "next": "15.1.8",
+    "next": "15.1.11",
     "nodemailer": "^7.0.3",
     "react": "^19.0.0",
     "react-countup": "^6.5.3",
